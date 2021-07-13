@@ -182,7 +182,7 @@ class DQNAgent:
         self.epsilon_min = 0.001
         self.epsilon_decay = 0.999
         self.batch_size = batch_size
-        self.train_start = len(df)
+        self.train_start = len(env.df)
 
         # create main model
         self.model = DQNModel(input_shape=(self.state_size,), action_space = self.action_size)
