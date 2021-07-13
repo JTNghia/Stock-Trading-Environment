@@ -245,14 +245,14 @@ class DQNAgent:
     def load(self, name):
         self.model = load_model(name)
 
-    def save(self, path = '../weightsDQN', filename = ''):
-        self.model.save(f'{path}/{filename}')
-        w = open(f'{path}/DQN_AverageProfits_Log.txt','a+')
-        w.write(f'{filename}: {np.mean(self.env._profits)}\n')
+    def save(self, save_folder = '../weightsDQN', save_filename = ''):
+        self.model.save(f'{save_folder}/{save_filename}')
+        w = open(f'{save_folder}/DQN_AverageProfits_Log.txt','a+')
+        w.write(f'{save_filename}: {np.mean(self.env._profits)}\n')
 
 
             
-    def train(self):
+    def train(self, save_folder = '../weightsDQN', save_filename = 'DQN'):
         prev_avg_profits = -99999999
         for e in range(self.EPISODES):
             state = self.env.reset()
@@ -269,8 +269,8 @@ class DQNAgent:
                     print("episode: {}/{}, avg_profit: {}, e: {:.2}".format(e, self.EPISODES, avg_profit, self.epsilon))
                     if prev_avg_profits < avg_profit and e > 0:
                         prev_avg_profits = avg_profit
-                        print(f"Saving trained model as DQN_Episode({e}).h5")
-                        self.save(filename=f'DQN_Episode({e}).h5')
+                        print(f"Saving trained model as {save_filename}_Episode({e}).h5")
+                        self.save(save_folder=save_folder,save_filename=f'{save_filename}_Episode({e}).h5')
                     # self.env.render_all(f"SaveModel/DQN_Episode({e})")
                     self.env._profits.clear()
                     self.env._networths.clear()
