@@ -8,11 +8,20 @@
 #   Description : defined PPO Keras model classes
 #
 #================================================================
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 import numpy as np
 import tensorflow as tf
+import random
+import gym
+import numpy as np
+from collections import deque
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense, Flatten, Conv1D, MaxPooling1D, LSTM
 from tensorflow.keras import backend as K
+from keras.models import Model, load_model
+from keras.layers import Input, Dense
+from keras.optimizers import Adam, RMSprop
 #tf.config.experimental_run_functions_eagerly(True) # used for debuging and development
 tf.compat.v1.disable_eager_execution() # usually using this for fastest performance
 
@@ -167,3 +176,25 @@ class Critic_Model:
 
     def critic_predict(self, state):
         return self.Critic.predict([state, np.zeros((state.shape[0], 1))])
+
+def DQNModel(input_shape, action_space):
+    X_input = Input(input_shape)
+
+    # 'Dense' is the basic form of a neural network layer
+    # Input Layer of state size(4) and Hidden Layer with 512 nodes
+    X = Dense(512, input_shape=input_shape, activation="relu", kernel_initializer='he_uniform')(X_input)
+
+    # Hidden layer with 256 nodes
+    X = Dense(256, activation="relu", kernel_initializer='he_uniform')(X)
+    
+    # Hidden layer with 64 nodes
+    X = Dense(64, activation="relu", kernel_initializer='he_uniform')(X)
+
+    # Output Layer with # of actions: 2 nodes (left, right)
+    X = Dense(action_space, activation="linear", kernel_initializer='he_uniform')(X)
+
+    model = Model(inputs = X_input, outputs = X, name='CartPole_DQN_model')
+    model.compile(loss="mse", optimizer=RMSprop(lr=0.00025, rho=0.95, epsilon=0.01), metrics=["accuracy"])
+
+    model.summary()
+    return model

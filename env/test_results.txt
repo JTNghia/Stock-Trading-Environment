@@ -1,0 +1,2 @@
+2021-07-12 21:25, fpt_Crypto_trader, test episodes:1, net worth:958.9001033992735, orders per episode:1.0, no profit episodes:1, model: CNN, comment: 2021_07_09_CNN_vic
+2021-07-12 21:34, fpt_Crypto_trader, test episodes:1, net worth:928.5947148153551, orders per episode:3.0, no profit episodes:1, model: CNN, comment: 2021_07_09_CNN_vic
