@@ -267,7 +267,7 @@ class DQNAgent:
                 if done:     
                     avg_profit = np.mean(self.env._profits)
                     print("episode: {}/{}, avg_profit: {}, e: {:.2}".format(e, self.EPISODES, avg_profit, self.epsilon))
-                    if prev_avg_profits < avg_profit and e > 0:
+                    if prev_avg_profits < avg_profit and e > 100:
                         prev_avg_profits = avg_profit
                         print(f"Saving trained model as {save_filename}_Episode({e}).h5")
                         self.save(save_folder=save_folder,save_filename=f'{save_filename}_Episode({e}).h5')
